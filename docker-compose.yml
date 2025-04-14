@@ -7,7 +7,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ./data:/data/db
+      - mongo-data:/data/db
     networks:
       - mern
   backend:
@@ -53,6 +53,7 @@ volumes:
   caddy-data:
   caddy-config:
   frontend-data:
+  mongo-data:
    
 networks:
   mern:
