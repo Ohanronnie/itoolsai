@@ -1,0 +1,55 @@
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+    networks:
+      - mern
+  backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/itools
+    networks:
+      - mern
+  frontend:
+    build: ./frontend
+    container_name: frontend
+
+    depends_on:
+      - backend
+    volumes:
+      - frontend-data:/app/dist
+    networks:
+      - mern
+
+  caddy:
+    image: caddy:alpine
+    container_name: caddy
+    ports:
+      - "9000:9000"
+     
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - frontend-data:/usr/share/caddy
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - mern
+volumes:
+  caddy-data:
+  caddy-config:
+  frontend-data:
+   
+networks:
+  mern:
+    driver: bridge  
