@@ -4,3 +4,6 @@ itoolsai.com, www.itoolsai.com {
     try_files {path} /index.html
     reverse_proxy  /api/* backend:3000
 }
+api.itoolsai.com {
+    reverse_proxy backend:3000
+}
