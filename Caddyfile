@@ -1,4 +1,4 @@
-:9000 {
+itoolsai.com, www.itoolsai.com {
     root * /usr/share/caddy
     file_server
     try_files {path} /index.html
