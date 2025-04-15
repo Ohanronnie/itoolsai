@@ -39,7 +39,7 @@ app.use(
       'https://itoolsai-frontend.onrender.com/',
       'https://itoolsai-frontend.onrender.com'
     ],
-    method: ["GET", "POST", 'DELETE'],
+    method: ["GET", "POST", 'DELETE', 'HEAD', 'PUT', 'PATCH'],
     credentials: true,
   }),
 );
@@ -47,6 +47,7 @@ app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.disable("x-powered-by");
 app.use(compression());
+
 /**
  * Logger Middleware
  */
@@ -105,7 +106,9 @@ app.get("/video", (req, res) => {
   }
 });
 app.use("/", setRoutes());
-
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
 // catch 404 and forward to error handler
 app.all(
   "*",
