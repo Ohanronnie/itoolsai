@@ -47,7 +47,7 @@ services:
     
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
-      - ./frontend/dist:/usr/share/caddy
+      - frontend/dist:/usr/share/caddy
       - caddy_data:/data
       - caddy_config:/config
     depends_on:
