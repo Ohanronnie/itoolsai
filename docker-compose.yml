@@ -49,14 +49,16 @@ services:
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - frontend-data:/usr/share/caddy
+      - caddy_data:/data
+      - caddy_config:/config
     depends_on:
       - frontend
       - backend
     networks:
       - mern
 volumes:
-  caddy-data:
-  caddy-config:
+  caddy_data:
+  caddy_config:
   frontend-data:
   mongo-data:
    
