@@ -125,11 +125,11 @@ function App() {
       element: <Content />,
     }*/ {
       path: "/product/content/manage",
-      element: <Outlet />,
+      element: <PrivateRoute />,
       children: [
         {
           path: "",
-          element: <Outlet />,
+          element: <PaidRoute />,
           children: [
             {
               path: "",

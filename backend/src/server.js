@@ -39,10 +39,12 @@ const postQueue = new Queue("postQueue", {
       removeOnComplete: true,
     }
   );
+  console.log("Polling job added to the queue");
 new Worker(
   'post-queue',
   async job => {
     if (job.name !== 'poll-due-posts') return;
+    condole.log('Running poll-due-posts job');
     await runForAllUsers({},{})
 }, { connection: redis });
 const app = express();
