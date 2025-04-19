@@ -1,34 +1,36 @@
 import Session from "./session.js";
-import axios from 'axios'
+import axios from "axios";
 export class FacebookPost {
   constructor(token, id) {
     this.id = id;
     this.token = token;
   }
-  async validatePage(){
+  async validatePage() {
     try {
-      let data = await axios.get(`https://graph.facebook.com/${this.id}?access_token=${this.token}`);
+      let data = await axios.get(
+        `https://graph.facebook.com/${this.id}?access_token=${this.token}`,
+      );
       console.log(data.data);
-      console.log('hello')
-      return ({
-        ...data.data
-      });
-    } catch(err){
-      console.log(err)
+      console.log("hello");
       return {
-        error: err
-      }
+        ...data.data,
+      };
+    } catch (err) {
+      console.log(err);
+      return {
+        error: err,
+      };
     }
   }
   async getPages() {
     try {
       const session = new Session();
       const _pages = await session.get(
-        `https://graph.facebook.com/${this.id}?access_token=${this.token}`
+        `https://graph.facebook.com/${this.id}?access_token=${this.token}`,
       );
-      console.log(_pages.body)
+      console.log(_pages.body);
 
-      return { page  };
+      return { page };
     } catch (error) {
       console.log(error);
       return false;
@@ -56,7 +58,7 @@ export class FacebookPost {
         "",
       );
     }
-    console.log(posted,message,token,id)
+    console.log(posted, message, token, id);
     return posted.body;
   }
 }

@@ -17,9 +17,10 @@ const twitterSchema = new Schema({
   contentType: String,
   country: String,
   language: String,
+  times: [String],
   ownerId: {
     type: mongoose.Types.ObjectId,
     required: true,
   },
 });
-export const TwitterSchema = model('Twitter', twitterSchema);
+export const TwitterSchema = model("Twitter", twitterSchema);

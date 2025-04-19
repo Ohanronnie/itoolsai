@@ -15,9 +15,38 @@ import morgan from "morgan";
 import { connectDb } from "./common/config/database.js";
 import fs from "fs";
 import path from "path";
-/**
- * Default app configurations
- */
+import { Queue, Worker } from "bullmq";
+import { Redis } from "ioredis";
+import { runForAllUsers } from "./modules/controllers/twitter/post.js";
+
+const redis = new Redis({
+  host: 'redis',
+  port: 6379,
+});
+const postQueue = new Queue("postQueue", {
+  connection: redis,
+});
+
+(async () => {
+  await postQueue.add(
+    'poll-due-posts',
+    {},
+    {
+      repeat: {
+        every: 60000 // Run every 5 seconds
+      },
+      jobId: 'poller',
+      removeOnComplete: true,
+    }
+  );
+})();
+
+new Worker(
+  'post-queue',
+  async job => {
+    if (job.name !== 'poll-due-posts') return;
+    await runForAllUsers({},{})
+});
 const app = express();
 const port = process.env.PORT || ENVIRONMENT.APP.PORT;
 const appName = ENVIRONMENT.APP.NAME;
@@ -36,10 +65,10 @@ app.use(
       "https://www.itoolsai.com",
       "https://www.itoolsai.com/",
       process.env.FRONTEND_URL,
-      'https://itoolsai-frontend.onrender.com/',
-      'https://itoolsai-frontend.onrender.com'
+      "https://itoolsai-frontend.onrender.com/",
+      "https://itoolsai-frontend.onrender.com",
     ],
-    method: ["GET", "POST", 'DELETE', 'HEAD', 'PUT', 'PATCH'],
+    method: ["GET", "POST", "DELETE", "HEAD", "PUT", "PATCH"],
     credentials: true,
   }),
 );
@@ -106,9 +135,9 @@ app.get("/video", (req, res) => {
   }
 });
 app.use("/", setRoutes());
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+app.all("/", (req, res) => {
+  res.send("Hello World!");
+});
 // catch 404 and forward to error handler
 app.all(
   "*",
@@ -138,7 +167,7 @@ app.get("*", (req, res) =>
 /**
  * Bootstrap server
  */
-app.listen(port,'0.0.0.0', () => {
+app.listen(port, "0.0.0.0", () => {
   console.log("=> " + appName + "app listening on port" + port + "!");
   connectDb();
 });

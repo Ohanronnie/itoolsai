@@ -9,7 +9,7 @@ import axios from "axios";
 import { JSDOM } from "jsdom";
 import { Readability } from "@mozilla/readability";
 import * as cheerio from "cheerio";
-import fs from 'fs'
+import fs from "fs";
 export async function validatePage(req, res) {
   const { token, accountId } = req.body;
   const Facebook = new FacebookPost(token, accountId);
@@ -18,21 +18,21 @@ export async function validatePage(req, res) {
 }
 export async function saveDetails(req, res) {
   try {
-    const { pageToken : pageToken,pageId: userId,contentType } = req.body;
+    const { pageToken: pageToken, pageId: userId, contentType } = req.body;
     const Facebook = new FacebookPost(pageToken, userId);
     let response = await Facebook.validatePage();
-    if(!response.error){
+    if (!response.error) {
       await Page.create({
         pageName: response.name,
         pageToken: pageToken,
         pageId: response.id,
-        contentType: contentType ? contentType : 'entertainment',
-        ownerId: req.userId
+        contentType: contentType ? contentType : "entertainment",
+        ownerId: req.userId,
       });
-      return res.status(200).json({ pageToken, pageId:  response.id})
+      return res.status(200).json({ pageToken, pageId: response.id });
     } else {
-      console.log(response.error)
-      return res.status(400).json('Invalid page token or id')
+      console.log(response.error);
+      return res.status(400).json("Invalid page token or id");
     }
 
     return res.status(200).json({ success: true });
@@ -70,7 +70,7 @@ async function getNews(topic, country, language) {
       let response = await axios.get(kURL);
       let doc = new JSDOM(response.data, { url: kURL });
       console.log(response.data);
-      fs.writeFileSync('doc.html', response.data)
+      fs.writeFileSync("doc.html", response.data);
       kURL = doc.window.document.querySelector("a").href;
       response = await axios.get(kURL);
       doc = new JSDOM(response.data, { url: kURL });
@@ -160,16 +160,14 @@ export async function getPages(req, res) {
     if (pages.length == 0) {
       return res.status(200).json([]);
     } else {
-      return res
-        .status(200)
-        .json(
-          pages.map((page) => ({
-            pageName: page.pageName,
-            pageId: page.pageId,
-            pageType: !!page.contentType,
-            pageToken: page.pageToken
-          })),
-        );
+      return res.status(200).json(
+        pages.map((page) => ({
+          pageName: page.pageName,
+          pageId: page.pageId,
+          pageType: !!page.contentType,
+          pageToken: page.pageToken,
+        })),
+      );
     }
   } catch (err) {
     console.error(err);
@@ -179,18 +177,16 @@ export async function getPages(req, res) {
 export async function getSavedPages(req, res) {
   try {
     let pages = await Page.find({ ownerId: req.userId });
-   // pages = pages.filter((e) => e.contentType);
+    // pages = pages.filter((e) => e.contentType);
     if (pages.length == 0) {
       return res.status(200).json([]);
     } else {
-      return res
-        .status(200)
-        .json(
-          pages.map((page) => ({
-            pageName: page.pageName,
-            pageId: page.pageId,
-          })),
-        );
+      return res.status(200).json(
+        pages.map((page) => ({
+          pageName: page.pageName,
+          pageId: page.pageId,
+        })),
+      );
     }
   } catch (err) {
     console.error(err);
