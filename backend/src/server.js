@@ -50,8 +50,7 @@ async function setupQueue() {
       {
         repeat: {
           every: 60000 // Run every minute (60,000ms)
-        },
-        jobId: 'poller', // Fixed ID to prevent duplicates
+        }, // Fixed ID to prevent duplicates
       }
     );
     console.log("Polling job added to the queue");
