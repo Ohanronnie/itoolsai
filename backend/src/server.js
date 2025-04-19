@@ -33,7 +33,7 @@ const postQueue = new Queue("post-queue", {
     {},
     {
       repeat: {
-        every: 5000 // Run every 5 seconds
+        every: 60000 // Run every 5 seconds
       },
       jobId: 'poller',
       removeOnComplete: true,
