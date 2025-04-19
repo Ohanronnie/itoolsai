@@ -16,7 +16,7 @@ import { connectDb } from "./common/config/database.js";
 import fs from "fs";
 import path from "path";
 import { Queue, Worker } from "bullmq";
-import { Redis } from "ioredis";
+import  Redis  from "ioredis";
 import { runForAllUsers } from "./modules/controllers/twitter/post.js";
 
 const redis = new Redis({
@@ -27,7 +27,6 @@ const postQueue = new Queue("postQueue", {
   connection: redis,
 });
 
-(async () => {
   await postQueue.add(
     'poll-due-posts',
     {},
@@ -39,14 +38,12 @@ const postQueue = new Queue("postQueue", {
       removeOnComplete: true,
     }
   );
-})();
-
 new Worker(
   'post-queue',
   async job => {
     if (job.name !== 'poll-due-posts') return;
     await runForAllUsers({},{})
-});
+}, { connection: redis });
 const app = express();
 const port = process.env.PORT || ENVIRONMENT.APP.PORT;
 const appName = ENVIRONMENT.APP.NAME;
