@@ -80,7 +80,7 @@ async function summarizeWithReadability(url) {
     };
   } catch (error) {
     console.error("❌ Readability/image error:", error.message);
-    return { excerpt: "", image: null };
+    return { excerpt: null, image: null };
   }
 }
 
@@ -178,6 +178,9 @@ async function processNiche(
 
       const { excerpt, image } = await summarizeWithReadability(finalUrl);
       console.log(excerpt, image);
+      
+      if (!excerpt) continue;
+
       const tweet = await summarizeWithGemini(excerpt);
       if (!tweet) continue;
 
