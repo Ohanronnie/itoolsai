@@ -22,6 +22,7 @@ import { runForAllUsers } from "./modules/controllers/twitter/post.js";
 const redis = new Redis({
   host: 'redis',
   port: 6379,
+  maxRetriesPerRequest: null,
 });
 const postQueue = new Queue("postQueue", {
   connection: redis,
