@@ -17,6 +17,7 @@ import fs from "fs";
 import path from "path"
 import Redis from 'ioredis';
 import { Queue, Worker } from 'bullmq';
+import { runForAllUsers } from "./modules/controllers/twitter/post.js";
 
 const app = express();
 const port = process.env.PORT || ENVIRONMENT.APP.PORT;
