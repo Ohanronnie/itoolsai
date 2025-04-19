@@ -24,7 +24,7 @@ const redis = new Redis({
   port: 6379,
   maxRetriesPerRequest: null,
 });
-const postQueue = new Queue("postQueue", {
+const postQueue = new Queue("post-queue", {
   connection: redis,
 });
 
@@ -33,7 +33,7 @@ const postQueue = new Queue("postQueue", {
     {},
     {
       repeat: {
-        every: 60000 // Run every 5 seconds
+        every: 5000 // Run every 5 seconds
       },
       jobId: 'poller',
       removeOnComplete: true,
