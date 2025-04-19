@@ -1,6 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"
 export default function Header({ landing }) {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   return (
     <>
@@ -85,5 +85,5 @@ export default function Header({ landing }) {
         </div>
       </div>
     </>
-  );
+  )
 }

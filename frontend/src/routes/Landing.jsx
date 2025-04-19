@@ -1,6 +1,6 @@
-import Header from "../components/Header";
-import { ArrowRightIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import Header from "../components/Header"
+import { ArrowRightIcon } from "@heroicons/react/24/outline"
+import { Link } from "react-router-dom"
 const advantages = [
   {
     title: "Monetizatio Freedom",
@@ -42,7 +42,7 @@ const advantages = [
     title: "User Loyalty",
     body: "Build loyalty by supporting creators in monetizing and expressing creativity.",
   },
-];
+]
 const Advantages = ({ title, body }) => {
   return (
     <>
@@ -55,8 +55,8 @@ const Advantages = ({ title, body }) => {
         </div>
       </main>
     </>
-  );
-};
+  )
+}
 export default function Landing() {
   return (
     <>
@@ -90,5 +90,5 @@ export default function Landing() {
         </div>
       </section>
     </>
-  );
+  )
 }

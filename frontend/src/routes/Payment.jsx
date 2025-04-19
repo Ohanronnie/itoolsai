@@ -1,34 +1,34 @@
-import { useState, useEffect } from "react";
-import { useNavigate, Navigate, Link } from "react-router-dom";
-import { axios } from "../utils/axios.js";
-import Header from "../components/Header";
+import { useState, useEffect } from "react"
+import { useNavigate, Navigate, Link } from "react-router-dom"
+import { axios } from "../utils/axios.js"
+import Header from "../components/Header"
 export default function Payment() {
-  const [hasPaid, setHasPaid] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  const [hasPaid, setHasPaid] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
   useEffect(() => {
     axios
       .post("/user")
       .then((response) => {
-        const data = response.data;
+        const data = response.data
         if (data.paymentRequired) {
-          setHasPaid(false);
+          setHasPaid(false)
         } else if (!data.paymentRequired) {
-          setHasPaid(true);
-          navigate("/home");
+          setHasPaid(true)
+          navigate("/home")
         }
       })
       .catch((error) => {
-        setHasPaid(false);
+        setHasPaid(false)
       })
-      .finally((e) => setLoading(false));
-  }, []);
+      .finally((e) => setLoading(false))
+  }, [])
   const generateLink = () => {
     axios.post("/payment/initialize").then((e) => {
-      console.log(e.data);
-      window.location.href = e.data.payment_url;
-    });
-  };
+      console.log(e.data)
+      window.location.href = e.data.payment_url
+    })
+  }
   const PaymentCard = () => {
     return (
       <>
@@ -60,8 +60,8 @@ export default function Payment() {
           </div>
         </main>
       </>
-    );
-  };
+    )
+  }
   const PaymentDiv = () => (
     <>
       <nav>
@@ -71,7 +71,7 @@ export default function Payment() {
         <PaymentCard />
       </section>
     </>
-  );
+  )
   return (
     <>
       {!loading ? (
@@ -83,5 +83,5 @@ export default function Payment() {
         <></>
       )}
     </>
-  );
+  )
 }

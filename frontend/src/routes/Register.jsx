@@ -1,48 +1,48 @@
-import { Link, useNavigate } from "react-router-dom";
-import { axios } from "../utils/axios.js";
-import { useState } from "react";
-console.log(88, import.meta.env["VITE_BACKEND_URL"], null, 2233);
+import { Link, useNavigate } from "react-router-dom"
+import { axios } from "../utils/axios.js"
+import { useState } from "react"
+console.log(88, import.meta.env["VITE_BACKEND_URL"], null, 2233)
 export default function Register() {
   const [details, setDetails] = useState({
     email: "",
     password: "",
-  });
+  })
   const [errors, setErrors] = useState({
     email: null,
     password: null,
-  });
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  })
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
   const handleSubmit = (e) => {
-    e.preventDefault();
-    setLoading(true);
+    e.preventDefault()
+    setLoading(true)
     axios
       .post("/user/create", details)
       .then(() => {
-        setErrors({});
-        navigate("/login");
+        setErrors({})
+        navigate("/login")
       })
       .catch((error) => {
         let response = error?.response?.data?.message
           .toLowerCase()
-          .replaceAll('"', "");
-        response = response.replace(response[0], response[0].toUpperCase());
+          .replaceAll('"', "")
+        response = response.replace(response[0], response[0].toUpperCase())
         if (response.includes("Email")) {
-          setErrors((val) => ({ ...val, email: response }));
+          setErrors((val) => ({ ...val, email: response }))
         } else {
-          setErrors((val) => ({ ...val, email: null }));
+          setErrors((val) => ({ ...val, email: null }))
         }
         if (response.includes("Password")) {
-          setErrors((val) => ({ ...val, password: response }));
+          setErrors((val) => ({ ...val, password: response }))
         } else {
-          setErrors((val) => ({ ...val, password: null }));
+          setErrors((val) => ({ ...val, password: null }))
         }
       })
-      .finally(() => setLoading(false));
-  };
+      .finally(() => setLoading(false))
+  }
   const handleClick = (e) => {
-    setDetails((val) => ({ ...val, [e.target.name]: e.target.value }));
-  };
+    setDetails((val) => ({ ...val, [e.target.name]: e.target.value }))
+  }
   return (
     <>
       <div className="herro flex items-center justify-center w-full min-h-screen min-w-screen bg-base-200">
@@ -110,5 +110,5 @@ export default function Register() {
         </div>
       </div>
     </>
-  );
+  )
 }

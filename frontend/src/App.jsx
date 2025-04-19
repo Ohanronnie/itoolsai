@@ -76,8 +76,8 @@ function App() {
       element: <Login />,
     },
     {
-path: '/auth/twitter/callback',
-element: <TwitterCallback/>
+      path: "/auth/twitter/callback",
+      element: <TwitterCallback />,
     },
     {
       path: "/video/:id",
@@ -125,11 +125,11 @@ element: <TwitterCallback/>
       element: <Content />,
     }*/ {
       path: "/product/content/manage",
-      element: <PrivateRoute />,
+      element: <Outlet />,
       children: [
         {
           path: "",
-          element: <PaidRoute />,
+          element: <Outlet />,
           children: [
             {
               path: "",

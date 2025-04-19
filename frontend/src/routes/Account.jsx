@@ -1,4 +1,1 @@
-
-export default function Account(){
-
-}
+export default function Account() {}

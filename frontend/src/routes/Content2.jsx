@@ -11,8 +11,8 @@ function Facebook({ setPages, setPageToken }) {
   const [loading, setLoading] = useState(false)
 
   const handleChange = (e) =>
-    setDetails((detail) => ({ ...detail, [e.target.name]: e.target.value }));
-  
+    setDetails((detail) => ({ ...detail, [e.target.name]: e.target.value }))
+
   const handleSubmit = (e) => {
     e.preventDefault()
     setLoading(true)
@@ -23,11 +23,10 @@ function Facebook({ setPages, setPageToken }) {
         if (typeof response.data === "string") {
           return setErrors(response.data)
         }
-        setPageToken(details.token);
-        
-        console.log(response.data);
-        setPages(details
-        );
+        setPageToken(details.token)
+
+        console.log(response.data)
+        setPages(details)
       })
       .catch(function (error) {
         setLoading(false)
@@ -98,14 +97,12 @@ function Facebook({ setPages, setPageToken }) {
   )
 }
 function PagesList() {
-  const [pages, setPages] = useState(null);
-  useEffect(function(){
-    axios
-      .get('/product/facebook/getsavedpage')
-      .then(response => {
-        setPages(response.data)
+  const [pages, setPages] = useState(null)
+  useEffect(function () {
+    axios.get("/product/facebook/getsavedpage").then((response) => {
+      setPages(response.data)
     })
-  },[])
+  }, [])
   const map = (page) => (
     <>
       <div className="flex items-center justify-between mb-2">
@@ -124,20 +121,20 @@ function PagesList() {
     </>
   )
 
-  return pages && ( 
-    <main className="grid place-items-center px-4 py-24 sm:py-32 lg:px-6">
-      <div className="border-[1px] px-6 py-2 w-1/2 rounded-md border-solid bg-base-200">
-        <p className="text-base text-center leading-7">Select One</p>
-        <hr className="mb-2" />
-         {[...pages.filter((page) => !page.pageType)].map(map)}
-         <hr className="mb-2" />
-         <button
-            className="btn bg-base-100 px-1 btn-block"
-          >
+  return (
+    pages && (
+      <main className="grid place-items-center px-4 py-24 sm:py-32 lg:px-6">
+        <div className="border-[1px] px-6 py-2 w-1/2 rounded-md border-solid bg-base-200">
+          <p className="text-base text-center leading-7">Select One</p>
+          <hr className="mb-2" />
+          {[...pages.filter((page) => !page.pageType)].map(map)}
+          <hr className="mb-2" />
+          <button className="btn bg-base-100 px-1 btn-block">
             Add more page
           </button>
-      </div>
-    </main>
+        </div>
+      </main>
+    )
   )
 }
 function ContentType({ pageName, pageId, pageToken }) {
@@ -202,8 +199,8 @@ export default function Content() {
         if (response.data.length == 0) {
           setPages(null)
         } else {
-          setPages(response.data[0]);
-          console.log(response.data);
+          setPages(response.data[0])
+          console.log(response.data)
           !pageToken && setPageToken(response.data[0].pageToken)
         }
       })
@@ -215,9 +212,19 @@ export default function Content() {
         <Header />
       </nav>
       {<PagesList />}
-      {!pages ? <Facebook setPages={setPages} setPageToken={setPageToken}/> : <PagesList />}
-      
-      {pages && <ContentType pageId={pages.pageId} pageName={pages.pageName} pageToken={pageToken } />}
+      {!pages ? (
+        <Facebook setPages={setPages} setPageToken={setPageToken} />
+      ) : (
+        <PagesList />
+      )}
+
+      {pages && (
+        <ContentType
+          pageId={pages.pageId}
+          pageName={pages.pageName}
+          pageToken={pageToken}
+        />
+      )}
     </>
   )
 }
