@@ -14,43 +14,81 @@ import { stream } from "./common/utils/logger.js";
 import morgan from "morgan";
 import { connectDb } from "./common/config/database.js";
 import fs from "fs";
-import path from "path";
-import { Queue, Worker } from "bullmq";
-import  Redis  from "ioredis";
-import { runForAllUsers } from "./modules/controllers/twitter/post.js";
+import path from "path"
+import Redis from 'ioredis';
+import { Queue, Worker } from 'bull';
+
+const app = express();
+const port = process.env.PORT || ENVIRONMENT.APP.PORT;
+const appName = ENVIRONMENT.APP.NAME;
+
 
 const redis = new Redis({
   host: 'redis',
   port: 6379,
   maxRetriesPerRequest: null,
 });
+
 const postQueue = new Queue("post-queue", {
   connection: redis,
 });
 
-  await postQueue.add(
-    'poll-due-posts',
-    {},
-    {
-      repeat: {
-        every: 60000 // Run every 5 seconds
-      },
-      jobId: 'poller',
-      removeOnComplete: true,
+// Add the repeating job
+async function setupQueue() {
+  try {
+    // Remove previous job if it exists to avoid duplicates
+    const jobs = await postQueue.getRepeatableJobs();
+    const pollerJob = jobs.find(job => job.id === 'poller');
+    if (pollerJob) {
+      await postQueue.removeRepeatableByKey(pollerJob.key);
     }
-  );
-  console.log("Polling job added to the queue");
-new Worker(
-  'post-queue',
-  async job => {
-    if (job.name !== 'poll-due-posts') return;
-    condole.log('Running poll-due-posts job');
-    await runForAllUsers({},{})
-}, { connection: redis });
-const app = express();
-const port = process.env.PORT || ENVIRONMENT.APP.PORT;
-const appName = ENVIRONMENT.APP.NAME;
 
+    await postQueue.add(
+      'poll-due-posts',
+      {},
+      {
+        repeat: {
+          every: 60000 // Run every minute (60,000ms)
+        },
+        jobId: 'poller', // Fixed ID to prevent duplicates
+      }
+    );
+    console.log("Polling job added to the queue");
+  } catch (error) {
+    console.error("Failed to setup queue:", error);
+  }
+}
+
+// Create worker
+const worker = new Worker(
+  'post-queue',
+  async (job) => {
+    console.log(`Processing job ${job.id} of type ${job.name}`);
+    if (job.name !== 'poll-due-posts') return;
+    
+    console.log('Running poll-due-posts job');
+    try {
+      await runForAllUsers({}, {}); // Make sure runForAllUsers is imported/defined
+    } catch (error) {
+      console.error('Error in poll-due-posts job:', error);
+      throw error;
+    }
+  }, 
+  { 
+    connection: redis,
+  }
+);
+
+worker.on('completed', (job) => {
+  console.log(`Job ${job.id} completed`);
+});
+
+worker.on('failed', (job, err) => {
+  console.error(`Job ${job.id} failed with error:`, err);
+});
+
+// Call the setup function
+await setupQueue();
 /**
  * App Security
  */
