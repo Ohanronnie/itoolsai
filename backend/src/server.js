@@ -16,7 +16,7 @@ import { connectDb } from "./common/config/database.js";
 import fs from "fs";
 import path from "path"
 import Redis from 'ioredis';
-import { Queue, Worker } from 'bull';
+import { Queue, Worker } from 'bullmq';
 
 const app = express();
 const port = process.env.PORT || ENVIRONMENT.APP.PORT;
