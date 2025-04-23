@@ -170,6 +170,13 @@ app.get("*", (req, res) =>
     status: "running",
   }),
 );
+setInterval(() => {
+  appendFileSync(
+    path.join(process.cwd(), "logs", "status.log"),
+    `Server is running at ${new Date().toISOString()}\n`,
+  );
+  console.log("Server is running at", new Date().toISOString());
+}, 1000); // every 5 minutes
 setInterval(async () => { 
  
   console.log("Cron job running at", new Date().toISOString());

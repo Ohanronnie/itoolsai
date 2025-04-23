@@ -240,6 +240,12 @@ export async function runForAllUsers(req, res) {
 
     const now = new Date();
     for (let j = 0; j < times.length; j++) {
+      console.log(
+        `Checking time ${j + 1}: ${times[j].getHours()}:${times[j].getMinutes()}`,
+      );
+      console.log(
+        `Current time: ${now.getHours()}:${now.getMinutes()}`,
+      );
       if (
         now.getHours() === times[j].getHours() &&
         now.getMinutes() === times[j].getMinutes()
