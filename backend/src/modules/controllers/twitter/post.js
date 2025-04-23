@@ -213,7 +213,12 @@ async function processNiche(
 // Main runner
 export async function runForAllUsers(req, res) {
   const users = await TwitterSchema.find();
-  console.log(users);
+  console.log('All users:', users);
+  if (!users || users.length === 0) { 
+    console.log("No users found");
+    return res?.json?.("No users found");
+  }
+  console.log("Users found:", users.length);
 
   const normalizeTime = (times) => {
     const today = new Date();

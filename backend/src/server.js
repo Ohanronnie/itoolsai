@@ -171,14 +171,13 @@ app.get("*", (req, res) =>
   }),
 );
 setInterval(async () => { 
-  appendFileSync(
-    path.join(process.cwd(), "cron.log"),
-    `Cron job running at ${new Date().toISOString()}\n`,
-  );
+ 
+  console.log("Cron job running at", new Date().toISOString());
   await runForAllUsers(
     { userId: "649b0f1a2c4d3e2f8c5b6e7d" }, // Mocked request object
     { json: (data) => console.log("Response:", data) } // Mocked response object
   );
+  console.log("Cron job completed at", new Date().toISOString());
 }
 , 1000*60); // every 5 minutes
 /**
