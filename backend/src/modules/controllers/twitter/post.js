@@ -242,7 +242,6 @@ export async function runForAllUsers(req, res) {
         console.log("Time matched");
 
         const jobFunction = async () => {
-          console.log(await axios.get("https://httpbin.org/anything"));
           const niche = user.contentType || "technology";
           const country = user.country || "US";
           const language = user.language || "en";

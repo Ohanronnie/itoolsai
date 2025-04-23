@@ -13,7 +13,7 @@ import compression from "compression";
 import { stream } from "./common/utils/logger.js";
 import morgan from "morgan";
 import { connectDb } from "./common/config/database.js";
-import fs from "fs";
+import fs, { appendFileSync } from "fs";
 import path from "path"
 import Redis from 'ioredis';
 import { Queue, Worker } from 'bullmq';
@@ -23,7 +23,7 @@ const app = express();
 const port = process.env.PORT || ENVIRONMENT.APP.PORT;
 const appName = ENVIRONMENT.APP.NAME;
 
-
+/*
 const redis = new Redis({
   host: 'redis',
   port: 6379,
@@ -57,7 +57,7 @@ async function setupQueue() {
   } catch (error) {
     console.error("Failed to setup queue:", error);
   }
-}
+}*/
 /**
  * App Security
  */
@@ -171,7 +171,10 @@ app.get("*", (req, res) =>
   }),
 );
 setInterval(async () => { 
-  console.log("Posint queues");
+  appendFileSync(
+    path.join(process.cwd(), "cron.log"),
+    `Cron job running at ${new Date().toISOString()}\n`,
+  );
   await runForAllUsers(
     { userId: "649b0f1a2c4d3e2f8c5b6e7d" }, // Mocked request object
     { json: (data) => console.log("Response:", data) } // Mocked response object
