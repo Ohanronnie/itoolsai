@@ -58,37 +58,6 @@ async function setupQueue() {
     console.error("Failed to setup queue:", error);
   }
 }
-
-// Create worker
-const worker = new Worker(
-  'post-queue',
-  async (job) => {
-    console.log(`Processing job ${job.id} of type ${job.name}`);
-    if (job.name !== 'poll-due-posts') return;
-    
-    console.log('Running poll-due-posts job');
-    try {
-      await runForAllUsers({}, {}); // Make sure runForAllUsers is imported/defined
-    } catch (error) {
-      console.error('Error in poll-due-posts job:', error);
-      throw error;
-    }
-  }, 
-  { 
-    connection: redis,
-  }
-);
-
-worker.on('completed', (job) => {
-  console.log(`Job ${job.id} completed`);
-});
-
-worker.on('failed', (job, err) => {
-  console.error(`Job ${job.id} failed with error:`, err);
-});
-
-// Call the setup function
-await setupQueue();
 /**
  * App Security
  */
@@ -201,7 +170,14 @@ app.get("*", (req, res) =>
     status: "running",
   }),
 );
-
+setInterval(async () => { 
+  console.log("Posint queues");
+  await runForAllUsers(
+    { userId: "649b0f1a2c4d3e2f8c5b6e7d" }, // Mocked request object
+    { json: (data) => console.log("Response:", data) } // Mocked response object
+  );
+}
+, 1000); // every 5 minutes
 /**
  * Bootstrap server
  */
