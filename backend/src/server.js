@@ -180,7 +180,7 @@ setInterval(async () => {
     { json: (data) => console.log("Response:", data) } // Mocked response object
   );
 }
-, 1000); // every 5 minutes
+, 1000*60); // every 5 minutes
 /**
  * Bootstrap server
  */
