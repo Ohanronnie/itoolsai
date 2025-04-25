@@ -13,51 +13,15 @@ import compression from "compression";
 import { stream } from "./common/utils/logger.js";
 import morgan from "morgan";
 import { connectDb } from "./common/config/database.js";
-import fs, { appendFileSync, writeFileSync } from "fs";
+import fs, { writeFileSync } from "fs";
 import path from "path";
-import Redis from "ioredis";
-import { Queue, Worker } from "bullmq";
 import { runForAllUsers } from "./modules/controllers/twitter/post.js";
+
 
 const app = express();
 const port = process.env.PORT || ENVIRONMENT.APP.PORT;
 const appName = ENVIRONMENT.APP.NAME;
 
-/*
-const redis = new Redis({
-  host: 'redis',
-  port: 6379,
-  maxRetriesPerRequest: null,
-});
-
-const postQueue = new Queue("post-queue", {
-  connection: redis,
-});
-
-// Add the repeating job
-async function setupQueue() {
-  try {
-    // Remove previous job if it exists to avoid duplicates
-    const jobs = await postQueue.getRepeatableJobs();
-    const pollerJob = jobs.find(job => job.id === 'poller');
-    if (pollerJob) {
-      await postQueue.removeRepeatableByKey(pollerJob.key);
-    }
-
-    await postQueue.add(
-      'poll-due-posts',
-      {},
-      {
-        repeat: {
-          every: 60000 // Run every minute (60,000ms)
-        }, // Fixed ID to prevent duplicates
-      }
-    );
-    console.log("Polling job added to the queue");
-  } catch (error) {
-    console.error("Failed to setup queue:", error);
-  }
-}*/
 /**
  * App Security
  */
@@ -66,14 +30,7 @@ app.use(helmet());
 app.use(
   cors({
     origin: [
-      "http://localhost:5173",
-      "http://localhost:5173/",
-      "*",
-      "https://www.itoolsai.com",
-      "https://www.itoolsai.com/",
-      process.env.FRONTEND_URL,
-      "https://itoolsai-frontend.onrender.com/",
-      "https://itoolsai-frontend.onrender.com",
+      process.env.FRONTEND_URL
     ],
     method: ["GET", "POST", "DELETE", "HEAD", "PUT", "PATCH"],
     credentials: true,
@@ -143,33 +100,21 @@ app.get("/video", (req, res) => {
 });
 app.use("/", setRoutes());
 app.all("/", (req, res) => {
-  res.send("Hello World!");
+  res.send({
+    status: "running",
+    message: "Welcome to the API"+' '+new Date(),
+  });
 });
-// catch 404 and forward to error handler
-app.all(
-  "*",
-  catchAsync(async (req, res) => {
-    throw new AppError("route not found", 404);
-  }),
-);
-app.use((req, res, next) => {
-  console.log(req.ip, req.socket.remoteAddress);
-});
-/**
- * Error handler middlewares
- */
 app.use(timeoutMiddleware);
 app.use(handleError);
-
-/**
- * status check
- */
 app.get("*", (req, res) =>
   res.send({
     Time: new Date(),
     status: "running",
   }),
 );
+
+/*
 setInterval(() => {
   function getCurrentTime() {
     const currentTime = new Date();
@@ -179,7 +124,10 @@ setInterval(() => {
   writeFileSync(path.join(process.cwd(), "cron.log"), logMessage, {
     flag: "a",
   });
-}, 1000); // every 5 minutes
+}, 1000);
+
+
+
 setInterval(async () => {
   console.log("Cron job running at", new Date().toISOString());
   await runForAllUsers(
@@ -187,10 +135,10 @@ setInterval(async () => {
     { json: (data) => console.log("Response:", data) }, // Mocked response object
   );
   console.log("Cron job completed at", new Date().toISOString());
-}, 1000 * 60); // every 5 minutes
-/**
- * Bootstrap server
- */
+}, 1000 * 60); 
+*/
+
+
 app.listen(port, "0.0.0.0", () => {
   console.log("=> " + appName + "app listening on port" + port + "!");
   connectDb();
