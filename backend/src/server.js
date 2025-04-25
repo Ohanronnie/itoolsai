@@ -13,10 +13,10 @@ import compression from "compression";
 import { stream } from "./common/utils/logger.js";
 import morgan from "morgan";
 import { connectDb } from "./common/config/database.js";
-import fs, { appendFileSync } from "fs";
-import path from "path"
-import Redis from 'ioredis';
-import { Queue, Worker } from 'bullmq';
+import fs, { appendFileSync, writeFileSync } from "fs";
+import path from "path";
+import Redis from "ioredis";
+import { Queue, Worker } from "bullmq";
 import { runForAllUsers } from "./modules/controllers/twitter/post.js";
 
 const app = express();
@@ -171,22 +171,23 @@ app.get("*", (req, res) =>
   }),
 );
 setInterval(() => {
-  appendFileSync(
-    path.join(process.cwd(), "logs", "status.log"),
-    `Server is running at ${new Date().toISOString()}\n`,
-  );
-  console.log("Server is running at", new Date().toISOString());
+  function getCurrentTime() {
+    const currentTime = new Date();
+    return currentTime.toISOString();
+  }
+  const logMessage = `Cron job running at ${getCurrentTime()}\n`;
+  writeFileSync(path.join(process.cwd(), "cron.log"), logMessage, {
+    flag: "a",
+  });
 }, 1000); // every 5 minutes
-setInterval(async () => { 
- 
+setInterval(async () => {
   console.log("Cron job running at", new Date().toISOString());
   await runForAllUsers(
     { userId: "649b0f1a2c4d3e2f8c5b6e7d" }, // Mocked request object
-    { json: (data) => console.log("Response:", data) } // Mocked response object
+    { json: (data) => console.log("Response:", data) }, // Mocked response object
   );
   console.log("Cron job completed at", new Date().toISOString());
-}
-, 1000*60); // every 5 minutes
+}, 1000 * 60); // every 5 minutes
 /**
  * Bootstrap server
  */

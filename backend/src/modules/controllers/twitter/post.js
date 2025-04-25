@@ -102,33 +102,6 @@ async function summarizeWithGemini(promptText) {
   return response.data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
 }
 
-async function refreshTwitterToken(userId) {
-  try {
-    const user = await TwitterSchema.findById(userId);
-    if (!user) throw new Error("User not found");
-
-    const client = new TwitterApi({
-      clientId: CLIENT_ID,
-      clientSecret: CLIENT_SECRET,
-    });
-    const { accessToken, refreshToken, ...rest } =
-      await client.refreshOAuth2Token(user.twitterRefreshToken);
-    console.log(rest);
-    await TwitterSchema.updateOne(
-      { _id: userId },
-      {
-        twitterAccessToken: accessToken,
-        twitterRefreshToken: refreshToken,
-      },
-    );
-
-    return accessToken;
-  } catch (error) {
-    console.error("❌ Token Refresh Failed:", error.message);
-    return null;
-  }
-}
-
 async function uploadImageToTwitter(imageUrl, accessToken, accessSecret) {
   try {
     const { data: imageBuffer } = await axios.get(imageUrl, {
@@ -178,7 +151,7 @@ async function processNiche(
 
       const { excerpt, image } = await summarizeWithReadability(finalUrl);
       console.log(excerpt, image);
-      
+
       if (!excerpt) continue;
 
       const tweet = await summarizeWithGemini(excerpt);
@@ -213,8 +186,8 @@ async function processNiche(
 // Main runner
 export async function runForAllUsers(req, res) {
   const users = await TwitterSchema.find();
-  console.log('All users:', users);
-  if (!users || users.length === 0) { 
+  console.log("All users:", users);
+  if (!users || users.length === 0) {
     console.log("No users found");
     return res?.json?.("No users found");
   }
@@ -243,9 +216,7 @@ export async function runForAllUsers(req, res) {
       console.log(
         `Checking time ${j + 1}: ${times[j].getHours()}:${times[j].getMinutes()}`,
       );
-      console.log(
-        `Current time: ${now.getHours()}:${now.getMinutes()}`,
-      );
+      console.log(`Current time: ${now.getHours()}:${now.getMinutes()}`);
       if (
         now.getHours() === times[j].getHours() &&
         now.getMinutes() === times[j].getMinutes()
@@ -253,21 +224,25 @@ export async function runForAllUsers(req, res) {
         console.log("Time matched");
 
         const jobFunction = async () => {
-          const niche = user.contentType || "technology";
-          const country = user.country || "US";
-          const language = user.language || "en";
+          try {
+            const niche = user.contentType || "technology";
+            const country = user.country || "US";
+            const language = user.language || "en";
 
-          console.log(
-            `Processing for ${user.twitterName} | niche: ${niche} | country: ${country} | language: ${language}`,
-          );
-          await processNiche(
-            "entertainment",
-            user._id,
-            user.twitterAccessToken,
-            user.twitterAccessSecret,
-            country,
-            language,
-          );
+            console.log(
+              `Processing for ${user.twitterName} | niche: ${niche} | country: ${country} | language: ${language}`,
+            );
+            await processNiche(
+              "entertainment",
+              user._id,
+              user.twitterAccessToken,
+              user.twitterAccessSecret,
+              country,
+              language,
+            );
+          } catch (error) {
+            console.error("Error in job function:", error);
+          }
         };
         addJobToQueue(jobFunction);
         //await jobFunction();
