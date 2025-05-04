@@ -28,6 +28,7 @@ export const initiatePayment = catchAsync(async (req, res) => {
     data: JSON.stringify({
       email,
       amount: 10000 * 100,
+      currency: "USD",
     }),
   };
   try {

@@ -54,7 +54,6 @@ export async function getGoogleNewsRssFinalUrl(url) {
     let res = JSON.parse(
       JSON.parse(response.body.split("\n\n")[1].slice(0))[0][2],
     )[1];
-    console.log(res);
     return res;
   } catch (error) {
     console.error("âŒ Error fetching final URL:", error.message);

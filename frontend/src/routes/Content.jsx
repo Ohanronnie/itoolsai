@@ -39,7 +39,7 @@ const TimePicker = () => {
     setErrorMessage("")
     alert(`Submitted times: ${times.join(", ")}`)
     // Here you can send the times to your API
-  }
+  } 
 
   // Handle time input change
   const handleTimeChange = (e, index) => {

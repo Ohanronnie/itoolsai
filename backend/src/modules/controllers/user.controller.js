@@ -98,7 +98,7 @@ export const getUser = catchAsync(async (req, res) => {
     } else {
       return res.status(200).json({
         success: true,
-        paymentRequired: false,
+        paymentRequired: true,
         freeTrialExpiredOn: accountCreatedAt,
       });
     }
