@@ -13,7 +13,7 @@ services:
     networks:
       - mern
     healthcheck:
-      test: ["CMD", "mongosh","--host", "localhost","--username","admin","--password","justimaginexandy", "authenticationDatabase", "admin", "--eval", "db.adminCommand('ping')"]
+      test: ["CMD", "mongosh","--eval", "db.adminCommand('ping')"]
       interval: 5s
       timeout: 30s
       retries: 5
