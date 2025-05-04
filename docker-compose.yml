@@ -12,6 +12,12 @@ services:
       - mongo-data:/data/db
     networks:
       - mern
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     command: ["mongod", "--bind_ip", "127.0.0.1", "--auth"]
   
   redis:
@@ -36,8 +42,8 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - mongo
-      - redis
+      mongo:
+        condition: service_healthy
     environment:
       - MONGO_URI=mongodb://admin:justimaginexandy@mongo:27017/itools
       - REDIS_URL=redis://redis:6379
