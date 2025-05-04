@@ -18,7 +18,7 @@ services:
       timeout: 30s
       retries: 5
       start_period: 5s
-    command: ["mongod", "--bind_ip", "127.0.0.1", "--auth"]
+    command: ["mongod", "--auth"]
   
   redis:
     image: redis:latest
@@ -45,7 +45,7 @@ services:
       mongo:
         condition: service_healthy
     environment:
-      - MONGO_URI=mongodb://admin:justimaginexandy@127.0.0.1:27017/itools
+      - MONGO_URI=mongodb://admin:justimaginexandy@mongo:27017/itools
       - REDIS_URL=redis://redis:6379
     networks:
       - mern
