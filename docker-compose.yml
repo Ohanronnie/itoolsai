@@ -13,11 +13,11 @@ services:
     networks:
       - mern
     healthcheck:
-      test: ["CMD", "mongo","--host", "localhost","--username","admin","--password","justimaginexandy", "authenticationDatabase", "admin", --eval", "db.adminCommand('ping')"]
-      interval: 10s
-      timeout: 5s
+      test: ["CMD", "mongosh","--host", "localhost","--username","admin","--password","justimaginexandy", "authenticationDatabase", "admin", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 30s
       retries: 5
-      start_period: 10s
+      start_period: 5s
     command: ["mongod", "--bind_ip", "127.0.0.1", "--auth"]
   
   redis:
