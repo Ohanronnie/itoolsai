@@ -132,7 +132,8 @@ async function processNiche(
   try {
     console.log(accessToken, accessSecret, 45);
     // Modify the RSS feed URL to include country and language
-    const rssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(niche)}&hl=${language}&gl=${country}&ceid=${country}:${language}`;
+    const rssUrl = `https://news.google.com/rss/search?q=${niche}&hl=${language}&gl=${country}&ceid=${country}:${language}`;
+    console.log("RSS URL:", rssUrl);
     const feed = await parser.parseURL(rssUrl);
 
     // Initialize user's seen articles if not already present
