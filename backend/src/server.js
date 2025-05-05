@@ -116,7 +116,7 @@ app.get("*", (req, res) =>
   }),
 );
 
-/*
+
 setInterval(() => {
   function getCurrentTime() {
     const currentTime = new Date();
@@ -138,7 +138,7 @@ setInterval(async () => {
   );
   console.log("Cron job completed at", new Date().toISOString());
 }, 1000 * 60); 
-*/
+
 
 
 app.listen(port, "0.0.0.0", () => {
