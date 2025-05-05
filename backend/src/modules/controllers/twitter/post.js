@@ -143,17 +143,15 @@ async function processNiche(
 
     for (let i = 0; i < feed.items.length; i++) {
       let item = feed.items[i];
-      console.log(item.link);
       const finalUrl = await getGoogleNewsRssFinalUrl(item.link);
-      console.log(finalUrl);
       if (!finalUrl || alreadySeen.has(finalUrl)) continue; // Skip if already seen
 
       const { excerpt, image } = await summarizeWithReadability(finalUrl);
-      console.log(excerpt, image);
 
       if (!excerpt) continue;
 
       const tweet = await summarizeWithGemini(excerpt);
+      console.log(tweet);
       if (!tweet) continue;
 
       let mediaId = null;
@@ -168,8 +166,6 @@ async function processNiche(
         accessSecret,
       });
       let done = await client.v2.tweet(tweet, postData);
-      console.log(done);
-      // Mark the URL as seen for this user
       alreadySeen.add(finalUrl);
       seenArticles.set(userId, alreadySeen); // Update the map
       //      console.log(data)
