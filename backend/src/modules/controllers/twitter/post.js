@@ -91,7 +91,7 @@ async function summarizeWithGemini(promptText) {
         {
           parts: [
             {
-              text: `Remove any link from my prompt. Summarize this for Twitter, as an engaging tweet:\n\n${promptText}`,
+              text: `Remove any link from my prompt. Remove all hashtags and dont put any, Summarize this for Twitter, as an engaging tweet and send the summarized version only without any additions:\n\n${promptText}`,
             },
           ],
         },
