@@ -311,8 +311,8 @@ export const paymentGuard = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ _id: req.userId });
   if (!user) throw new AppError("Error occured somewhere, try relogin");
   const todayDate = new Date();
-  const accountCreatedAt = new Date(user.createdAt);
-  // remove this later
+  const accountCreatedAt = new Date(user.createdAt);  
+  return next();
   if (user.hasPaid) {
     if (user.paymentExpiresIn < todayDate) {
       return res.status(200).json({
