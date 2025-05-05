@@ -134,6 +134,7 @@ async function processNiche(
     // Modify the RSS feed URL to include country and language
     const rssUrl = `https://news.google.com/rss/search?q=${niche}&hl=${language}&gl=${country}&ceid=${country}:${language}`;
     console.log("RSS URL:", rssUrl);
+
     const feed = await parser.parseURL(rssUrl);
 
     // Initialize user's seen articles if not already present
@@ -229,7 +230,7 @@ export async function runForAllUsers(req, res) {
               `Processing for ${user.twitterName} | niche: ${niche} | country: ${country} | language: ${language}`,
             );
             await processNiche(
-              "entertainment",
+              niche,
               user._id,
               user.twitterAccessToken,
               user.twitterAccessSecret,
