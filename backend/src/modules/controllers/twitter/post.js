@@ -8,12 +8,13 @@ import { TwitterSchema } from "../../schemas/twitter.schema.js";
 import { addJobToQueue } from "./job.js";
 import request from "request";
 import util from "util";
+import { readFileSync, appendFileSync } from "fs";
 const parser = new Parser();
 const CLIENT_ID = process.env.TWITTER_CLIENT_ID;
 const CLIENT_SECRET = process.env.TWITTER_CLIENT_SECRET;
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
-const seenArticles = new Map();
+const seenArticles = new Set();
 
 export async function getGoogleNewsRssFinalUrl(url) {
   try {
@@ -138,15 +139,12 @@ async function processNiche(
     const feed = await parser.parseURL(rssUrl);
 
     // Initialize user's seen articles if not already present
-    if (!seenArticles.has(userId)) {
-      seenArticles.set(userId, new Set());
-    }
-    const alreadySeen = seenArticles.get(userId);
 
     for (let i = 0; i < feed.items.length; i++) {
       let item = feed.items[i];
       const finalUrl = await getGoogleNewsRssFinalUrl(item.link);
-      if (!finalUrl || alreadySeen.has(finalUrl)) continue; // Skip if already seen
+      if(seenArticles.has(finalUrl)) continue; // Skip if already seen
+      // Skip if already seen
 
       const { excerpt, image } = await summarizeWithReadability(finalUrl);
 
@@ -168,10 +166,10 @@ async function processNiche(
         accessSecret,
       });
       let done = await client.v2.tweet(tweet, postData);
-      alreadySeen.add(finalUrl);
-      seenArticles.set(userId, alreadySeen); // Update the map
+      seenArticles.add(finalUrl) // Update the map
       //      console.log(data)
       console.log(`✅ Posted for ${userId}: ${tweet}`);
+      console.log(seenArticles)
       break; // Only process the first valid article for this user
     }
   } catch (err) {
