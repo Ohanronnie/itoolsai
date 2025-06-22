@@ -73,18 +73,16 @@ export async function getUserDetails(req, res) {
 }
 export async function getTwitterUser(req, res) {
   const user = await TwitterSchema.findOne({ ownerId: req.userId });
-  console.log(user);
-  if (user) return res.json({ name: user.twitterName });
+  if (user) return res.json({ name: user.twitterName, times: user.times });
   return res.json(null);
 }
 export async function setTwitterContent(req, res) {
   let { language, contentType, country, times } = req.body;
-  console.log(req.body, times);
+  
   try {
     if (
       ![language, contentType, country, times].every((a) => a !== undefined)
     ) {
-      console.log("all set");
       return res.json(false);
     }
     await TwitterSchema.findOneAndUpdate(

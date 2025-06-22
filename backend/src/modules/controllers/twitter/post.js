@@ -181,7 +181,6 @@ async function processNiche(
 // Main runner
 export async function runForAllUsers(req, res) {
   const users = await TwitterSchema.find();
-  console.log("All users:", users);
   if (!users || users.length === 0) {
     console.log("No users found");
     return res?.json?.("No users found");
@@ -194,27 +193,33 @@ export async function runForAllUsers(req, res) {
     return times.map((t) => {
       const [hour, minute] = t.split(":");
       const time = new Date(
-        today.getFullYear(),
-        today.getMonth(),
-        today.getDate(),
-        hour,
-        minute,
+        Date.UTC(
+          today.getUTCFullYear(),
+          today.getUTCMonth(),
+          today.getUTCDate(),
+          hour,
+          minute
+        )
       );
       return time;
     });
   };
   for (const user of users) {
-    const times = normalizeTime(user.times);
+    const times = normalizeTime(user.times); // Normalize times to UTC
 
-    const now = new Date();
+    const now = new Date(); // Current time in UTC
     for (let j = 0; j < times.length; j++) {
       console.log(
-        `Checking time ${j + 1}: ${times[j].getHours()}:${times[j].getMinutes()}`,
+        `Checking time ${j + 1}: ${times[j].getUTCHours()}:${times[
+          j
+        ].getUTCMinutes()}`
       );
-      console.log(`Current time: ${now.getHours()}:${now.getMinutes()}`);
+      console.log(
+        `Current UTC time: ${now.getUTCHours()}:${now.getUTCMinutes()}`
+      );
       if (
-        now.getHours() === times[j].getHours() &&
-        now.getMinutes() === times[j].getMinutes()
+        now.getUTCHours() === times[j].getUTCHours() &&
+        now.getUTCMinutes() === times[j].getUTCMinutes()
       ) {
         console.log("Time matched");
 
@@ -225,7 +230,7 @@ export async function runForAllUsers(req, res) {
             const language = user.language || "en";
 
             console.log(
-              `Processing for ${user.twitterName} | niche: ${niche} | country: ${country} | language: ${language}`,
+              `Processing for ${user.twitterName} | niche: ${niche} | country: ${country} | language: ${language}`
             );
             await processNiche(
               niche,
@@ -233,14 +238,13 @@ export async function runForAllUsers(req, res) {
               user.twitterAccessToken,
               user.twitterAccessSecret,
               country,
-              language,
+              language
             );
           } catch (error) {
             console.error("Error in job function:", error);
           }
         };
         addJobToQueue(jobFunction);
-        //await jobFunction();
         console.log("Job added to queue");
       }
     }
