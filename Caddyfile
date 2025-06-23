@@ -1,9 +1,6 @@
 itoolsai.com, www.itoolsai.com {
-    root * /usr/share/caddy
-    file_server
-    try_files {path} /index.html
-    reverse_proxy  /api/* backend:3000
+    reverse_proxy frontend:3000
 }
 api.itoolsai.com {
-    reverse_proxy backend:3000
+    reverse_proxy backend:4000
 }

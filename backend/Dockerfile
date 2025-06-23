@@ -6,5 +6,5 @@ RUN npm install
 COPY . .
 COPY wait-for-mongo.sh ./wait-for-mongo.sh
 RUN chmod +x ./wait-for-mongo.sh
-EXPOSE 3000
+EXPOSE 4000
 CMD ["npm", "run", "dev"]
