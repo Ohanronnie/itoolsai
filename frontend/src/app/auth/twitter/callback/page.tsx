@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { axiosInstance } from "@/app/lib/axios";
 
@@ -57,5 +57,7 @@ const TwitterCallback = () => {
     </div>
   );
 };
-
-export default TwitterCallback;
+const Twitter = () => <Suspense>
+  <TwitterCallback />
+</Suspense>
+export default Twitter;
