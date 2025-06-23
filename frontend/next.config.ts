@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true
   },
   eslint: {
-    ignoreDuringBuild: true
+    ignoreDuringBuilds: true
   }
 };
 
