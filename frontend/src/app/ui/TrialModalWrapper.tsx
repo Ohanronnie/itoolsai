@@ -6,7 +6,7 @@ export default function TrialModalWrapper() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShow(true), 4000);
+    const timer = setTimeout(() => setShow(true), 20000);
     return () => clearTimeout(timer);
   }, []);
 
