@@ -15,8 +15,9 @@ export default function Hero() {
         <AnimateOnScroll animation="fade">
           <div className="text-lg mt-6">
             <p className="text-lg text-center md:text-left text-text-base font-sans">
-              Manage your Twitter account like a pro. Schedule tweets, generate
-              AI-powered content, and monetize your account—all in one place.
+              Schedule and automate tweets across multiple accounts with
+              precision timing and consistency. Generate engaging, on-brand
+              tweet content with the help of smart AI tailored to your niche.
             </p>
           </div>
           <AnimateOnScroll animation="fade">
