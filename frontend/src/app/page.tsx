@@ -6,9 +6,12 @@ import Link from "next/link";
 import Footer from "./ui/Footer";
 import AnimateOnScroll from "./ui/AnimateOnScroll";
 
+import TrialModalWrapper from "./ui/TrialModalWrapper";
+
 export default function Home() {
   return (
     <div className="overflow-x-hidden">
+      <TrialModalWrapper />
       <Header />
       <section className="mt-8 mx-6 md:mx-12">
         <AnimateOnScroll animation="fade">
@@ -146,10 +149,51 @@ export default function Home() {
           </div>
         </section>
       </AnimateOnScroll>
+      <AnimateOnScroll animation="fade">
+        <section className="mt-16 mx-8 md:mx-12 px-6 md:px-12 py-12 bg--white rounded-xl shadow--md">
+          <h2 className="text-center text-2xl font-bold text-gray-900">
+            Trusted by Digital Creators & Agencies
+          </h2>
+          <p className="text-center text-gray-600 mt-2 text-sm max-w-xl mx-auto">
+            Hear what real users say about automating their content and growing
+            on X with confidence.
+          </p>
+
+          <div className="mt-8  grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-white p-5 rounded-xl">
+              <p className="text-sm text-gray-800 leading-relaxed">
+                “Managing multiple accounts used to be stress. Now I schedule
+                everything and focus on growth.”
+              </p>
+              <div className="mt-4 text-xs text-gray-500 font-medium">
+                @mariam_dev — Content Strategist
+              </div>
+            </div>
+            <div className="bg-white p-5 rounded-xl">
+              <p className="text-sm text-gray-800 leading-relaxed">
+                “I use the AI to rewrite and schedule my daily tweets. Zero
+                burnout. Results speak.”
+              </p>
+              <div className="mt-4 text-xs text-gray-500 font-medium">
+                @adewale_codes — Tech Influencer
+              </div>
+            </div>
+            <div className="bg-white p-5 rounded-xl">
+              <p className="text-sm text-gray-800 leading-relaxed">
+                “The copyright-safe angle sold me. I now post remix content
+                daily and monetize fast.”
+              </p>
+              <div className="mt-4 text-xs text-gray-500 font-medium">
+                @nina_vision — Creator Coach
+              </div>
+            </div>
+          </div>
+        </section>
+      </AnimateOnScroll>
 
       {/* Mission & Plans */}
       <AnimateOnScroll animation="zoom-out">
-        <section className="mt-12 px-8 flex-col items-center md:px-12 py-12">
+        <section className="mt-6 px-8 flex-col items-center md:px-12 py-12">
           <p className="text-base uppercase text-center font-semibold">
             our mission
           </p>
@@ -180,7 +224,6 @@ export default function Home() {
               </div>
             </AnimateOnScroll>
           </div>
-
           {/* Pricing */}
           <div className="mt-8">
             <p className="text-center font-bold text-base">CHOOSE PLAN</p>

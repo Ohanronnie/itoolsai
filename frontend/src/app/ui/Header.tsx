@@ -71,8 +71,8 @@ export default function Header() {
         className={clsx(
           "md:hidden overflow-hidden transition-all duration-300 ease-in-out ",
           menuOpen
-            ? "max-h-60 opacity-100 scale-100"
-            : "max-h-0 opacity-0 scale-95",
+            ? "max-h-110 opacity-100 scale-100"
+            : "max-h-0 opacity-0 scale-95"
         )}
       >
         <nav className="flex flex-col  space-y-4 p-4">
@@ -86,6 +86,22 @@ export default function Header() {
             </Link>
           ))}
         </nav>
+
+        <div className="flex flex-col mx-4 mb-4 space-y-4">
+          <button
+            onClick={() => router.push("/auth/login")}
+            className="transition-colors duration-300 px-4 py-3 text-[#142b3c]  text-sm rounded-lg border border-slate-500 hover:bg-base hover:text-white"
+          >
+            Sign In
+          </button>
+
+          <button
+            onClick={() => router.push("/auth/signup")}
+            className="px-4 py-3 text-sm rounded-lg bg-[#2a8e9e] text-white hover:bg-white hover:text-text-base transition-colors duration-300 hover:border hover:border-slate-500 border border-[#2a8e9e]"
+          >
+            Sign Up
+          </button>
+        </div>
       </div>
     </header>
   );

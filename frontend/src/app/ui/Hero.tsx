@@ -1,5 +1,6 @@
 import Image from "next/image";
 import AnimateOnScroll from "./AnimateOnScroll";
+import Link from "next/link";
 export default function Hero() {
   return (
     <div className="flex flex-col-reverse max-w-7xl items-center gap-10 sm:flex-row text-text-base">
@@ -18,6 +19,18 @@ export default function Hero() {
               AI-powered content, and monetize your account—all in one place.
             </p>
           </div>
+          <AnimateOnScroll animation="fade">
+            <div className="mt-8 flex justify-center md:block">
+              <Link href="/auth/login">
+                <button className="relative inline-flex items-center justify-center px-6 py-5 overflow-hidden text-sm font-semibold text-white bg-base rounded-full shadow-lg group hover:bg-base/90 transition-all duration-300">
+                  <span className="absolute inset-0 w-full h-full transition duration-300 ease-out transform translate-x-full bg-white opacity-10 group-hover:translate-x-0"></span>
+                  <span className="relative z-10">
+                    🚀 Start Free 7-Day Trial – No Card Needed!
+                  </span>
+                </button>
+              </Link>
+            </div>
+          </AnimateOnScroll>
         </AnimateOnScroll>
       </div>
       <div className="flex-1">
