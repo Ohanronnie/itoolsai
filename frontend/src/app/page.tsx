@@ -20,7 +20,7 @@ export default function Home() {
 
         {/* What We Offer */}
         <AnimateOnScroll animation="slide-up">
-          <div className="md:mt-8 mt-12 bg--white py-4 px-4 md:px-8 rounded-lg shadow--md">
+          <div id="products" className="md:mt-8 mt-12 bg--white py-4 px-4 md:px-8 rounded-lg shadow--md">
             <div>
               <h1 className="uppercase mt-8 text-base font-semibold text-center">
                 What we offer
@@ -150,7 +150,7 @@ export default function Home() {
         </section>
       </AnimateOnScroll>
       <AnimateOnScroll animation="fade">
-        <section className="mt-16 mx-8 md:mx-12 px-6 md:px-12 py-12 bg--white rounded-xl shadow--md">
+        <section id="customers" className="mt-16 mx-8 md:mx-12 px-6 md:px-12 py-12 bg--white rounded-xl shadow--md">
           <h2 className="text-center text-2xl font-bold text-gray-900">
             Trusted by Digital Creators & Agencies
           </h2>
@@ -225,7 +225,7 @@ export default function Home() {
             </AnimateOnScroll>
           </div>
           {/* Pricing */}
-          <div className="mt-8">
+          <div className="mt-8" id="pricing">
             <p className="text-center font-bold text-base">CHOOSE PLAN</p>
             <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
               <AnimateOnScroll animation="zoom-in">

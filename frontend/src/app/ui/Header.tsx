@@ -4,10 +4,10 @@ import { useState } from "react";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 const navItems = [
-  { name: "Products", href: "/product" },
-  { name: "Customers", href: "/customer" },
-  { name: "Pricing", href: "/contact" },
-  { name: "Contact", href: "/contact" },
+  { name: "Products", href: "#products" },
+  { name: "Customers", href: "#customers" },
+  { name: "Pricing", href: "#pricing" },
+  { name: "Contact", href: "#footer" },
 ];
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
