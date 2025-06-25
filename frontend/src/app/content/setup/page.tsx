@@ -178,7 +178,7 @@ export default function ContentScheduler() {
             )}
             <button
               type="submit"
-              className="px-6 py-3 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition"
+              className="px-6 py-3 bg-base text-white font-medium rounded-xl hover:bg-blue-700 transition"
             >
               {loading ? (
                 <>

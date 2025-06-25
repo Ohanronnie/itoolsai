@@ -41,7 +41,7 @@ export default function ConnectX() {
 
         <button
           onClick={handleClick}
-          className="w-full flex items-center justify-center gap-2 bg-base hover:bg-base text-white font-medium py-3 rounded-xl transition"
+          className="w-full flex items-center justify-center gap-2 bg-base hover:bg-base/80 text-white font-medium py-3 rounded-xl transition"
         >
           <LogIn className="h-5 w-5" />
           Connect with X
