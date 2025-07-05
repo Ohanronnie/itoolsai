@@ -128,7 +128,7 @@ export default function Signup() {
               placeholder="Enter your email"
               className={`mt-1 w-full px-4 py-3 rounded-xl border ${
                 errors.email ? "border-red-500" : "border-gray-300"
-              } bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
+              } bg-gray-50 focus:outline-none focus:ring-2 focus:ring-base focus:border-transparent transition`}
               required
             />
             {errors.email && (
@@ -151,7 +151,7 @@ export default function Signup() {
               placeholder="Enter your password"
               className={`mt-1 w-full px-4 py-3 rounded-xl border ${
                 errors.password ? "border-red-500" : "border-gray-300"
-              } bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
+              } bg-gray-50 focus:outline-none focus:ring-2 focus:ring-base focus:border-transparent transition`}
               required
             />
             {errors.password && (
@@ -165,14 +165,14 @@ export default function Signup() {
                 name="termsAccepted"
                 checked={details.termsAccepted}
                 onChange={handleChange}
-                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                className="h-4 w-4 rounded border-gray-300 text-base focus:ring-base"
                 required
               />
               <span className="text-gray-600">
                 I agree to the{" "}
                 <a
                   href="#"
-                  className="text-blue-600 hover:underline font-medium"
+                  className="text-base hover:underline font-medium"
                 >
                   Terms & Conditions
                 </a>
@@ -184,7 +184,7 @@ export default function Signup() {
           )}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white font-medium py-3 rounded-xl transition focus:outline-none focus:ring-4 focus:ring-blue-300"
+            className="w-full bg-base text-white font-medium py-3 rounded-xl transition focus:outline-none focus:ring-4 focus:ring-blue-300"
             disabled={loading}
           >
             {loading ? "Signing Up..." : "Sign Up"}
@@ -194,7 +194,7 @@ export default function Signup() {
           Already have an account?{" "}
           <Link
             href="/auth/login"
-            className="text-blue-600 hover:underline font-medium"
+            className="text-base hover:underline font-medium"
           >
             Sign in
           </Link>

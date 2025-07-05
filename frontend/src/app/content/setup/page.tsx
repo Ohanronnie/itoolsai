@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { axiosInstance } from "@/app/lib/axios";
 
@@ -14,7 +14,7 @@ export default function ContentScheduler() {
   const [times, setTimes] = useState([""]);
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const [userName, setUserName] = useState(null);
   const router = useRouter();
 
   const addTime = () => {
@@ -80,12 +80,17 @@ export default function ContentScheduler() {
       alert("Error occurred somewhere, reload page");
     }
   };
-
+  useEffect(function () {
+    (async () => {
+      const { data } = await axiosInstance.get("/product/auth/twitter/user");
+      setUserName(data.name)
+    })();
+  }, []);
   return (
     <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-indigo-100 px-4 py-10">
       <div className="w-full max-w-md bg-white/70 backdrop-blur-md rounded-2xl shadow-xl p-8 sm:p-10">
         <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">Welcome, Ronnie</h2>
+          <h2 className="text-2xl font-bold text-gray-900">Welcome, {userName} </h2>
           <p className="text-sm text-gray-600">Schedule your content below</p>
         </div>
         <form className="space-y-5" onSubmit={handleSubmit}>

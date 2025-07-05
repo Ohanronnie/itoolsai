@@ -112,7 +112,7 @@ export default function Login() {
               placeholder="Email"
               className={`mt-1 w-full px-4 py-3 rounded-xl border ${
                 errors.email ? "border-red-500" : "border-gray-300"
-              } bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
+              } bg-gray-50 focus:outline-none focus:ring-2 focus:ring-base focus:border-transparent transition`}
               required
             />
             {errors.email && (
@@ -137,7 +137,7 @@ export default function Login() {
               placeholder="••••••••"
               className={`mt-1 w-full px-4 py-3 rounded-xl border ${
                 errors.password ? "border-red-500" : "border-gray-300"
-              } bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
+              } bg-gray-50 focus:outline-none focus:ring-2 focus:ring-base focus:border-transparent transition`}
               required
             />
             {errors.password && (
@@ -150,17 +150,17 @@ export default function Login() {
             <label className="flex items-center space-x-2">
               <input
                 type="checkbox"
-                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-base"
               />
               <span className="text-gray-600">Remember me</span>
             </label>
             <a href="#" className="text-base hover:underline">
-              Forgot password?
+              
             </a>
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white font-medium py-3 rounded-xl transition focus:outline-none focus:ring-4 focus:ring-blue-300"
+            className="w-full bg-base text-white font-medium py-3 rounded-xl transition focus:outline-none focus:ring-4 focus:ring-blue-300"
             disabled={loading}
           >
             {loading ? "Signing In..." : "Sign In"}
@@ -168,7 +168,7 @@ export default function Login() {
         </form>
         <div className="text-sm text-center text-gray-600 mt-6">
           Don’t have an account?{" "}
-          <a href="#" className="text-blue-600 hover:underline font-medium">
+          <a href="/auth/signup" className="text-base hover:underline font-medium">
             Create one
           </a>
         </div>
