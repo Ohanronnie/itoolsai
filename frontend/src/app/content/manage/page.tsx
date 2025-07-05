@@ -28,7 +28,7 @@ export default function ManageXAccount() {
           // Convert times to UTC
           const utcTimes = (data.times || []).map((time: string) => {
             const localTime = new Date(`1970-01-01T${time}:00`);
-            return localTime.toISOString().split("T")[1].slice(0, 5); // Extract HH:mm in UTC
+            return localTime.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"}) // Extract HH:mm in UTC
           });
 
           setConnectedAccount({
