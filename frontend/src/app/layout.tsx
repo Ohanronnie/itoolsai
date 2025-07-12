@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import Script from "next/script"; 
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -54,7 +55,7 @@ export const metadata: Metadata = {
     images: ["https://itoolsai.com/images/twitter-card.png"],
   },
 };
-
+// app/layout.tsx
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -62,9 +63,29 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Twitter conversion tracking script */}
+        <Script id="twitter-pixel" strategy="beforeInteractive">
+          {`
+            !function(e,t,n,s,u,a){
+              e.twq||(s=e.twq=function(){
+                s.exe ? s.exe.apply(s,arguments) : s.queue.push(arguments);
+              },
+              s.version='1.1',
+              s.queue=[],
+              u=t.createElement(n),
+              u.async=!0,
+              u.src='https://static.ads-twitter.com/uwt.js',
+              a=t.getElementsByTagName(n)[0],
+              a.parentNode.insertBefore(u,a))
+            }(window,document,'script');
+            twq('config','q1m9z');
+          `}
+        </Script>
+      </head>
       <body
-        style={{ overflowX: "hidden" }}
-        className={`${geistSans.variable} ${geistMono.variable}  bg-white h-[100vh] antialiased`}
+        style={{ overflowX: 'hidden' }}
+        className={`${geistSans.variable} ${geistMono.variable} bg-white h-[100vh] antialiased`}
       >
         {children}
         <GoogleAnalytics gaId="G-T5H61K9L34" />
@@ -72,3 +93,4 @@ export default function RootLayout({
     </html>
   );
 }
+
